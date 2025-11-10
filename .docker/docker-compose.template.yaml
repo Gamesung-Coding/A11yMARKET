@@ -1,0 +1,24 @@
+services:
+  webapp:
+    image: ${IMAGE_TAG}
+    container_name: ${SERVICE_NAME}
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      # Traefik setting
+      - 'traefik.enable=true'
+      # Router setting
+      - 'traefik.http.routers.${SERVICE_NAME}.rule=Host(`${HOST_NAME}`)'
+      - 'traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure'
+      - 'traefik.http.routers.${SERVICE_NAME}.tls=true'
+      # Basic Auth Middleware
+      - 'traefik.http.routers.${SERVICE_NAME}.middlewares=auth-${SERVICE_NAME}'
+      # Basic Auth Middleware Definition
+      - 'traefik.http.middlewares.auth-${SERVICE_NAME}.basicauth.users=${TEAM_USER}:${TEAM_PASS}'
+      # Service Setting
+      - 'traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80'
+
+networks:
+  proxy:
+    external: true

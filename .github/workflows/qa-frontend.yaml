@@ -1,0 +1,5 @@
+name: Feature QA Frontend
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
