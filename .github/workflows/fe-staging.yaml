@@ -76,8 +76,8 @@ jobs:
     env:
       TEAM_USER: ${{ secrets.TEAM_USER }}
       TEAM_PASS: ${{ secrets.TEAM_PASS }}
-      ENVIRONMENT_FILE: ${{ secrets.FE_ENV_VARS_PR }}
-      HOST_NAME: ${{ secrets.STAGING_URL }}
+      ENVIRONMENT_FILE: ${{ secrets.FE_ENV_STAGING }}
+      HOST_NAME: ${{ secrets.STAGING_DOMAIN }}
       SERVICE_NAME: fe-staging
       DEPLOY_PATH: ${{ secrets.DOCKER_DIR }}/deployments/fe-staging
 

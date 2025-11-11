@@ -61,7 +61,7 @@ jobs:
           cache: 'npm'
 
       - name: Create .env file
-        run: echo "${{ secrets.FE_ENV_VARS_PR }}" > .env
+        run: echo "${{ secrets.FE_ENV_PR }}" > .env
 
       - name: Set dynamic variables
         id: vars
@@ -105,7 +105,7 @@ jobs:
       PR_NUMBER: ${{ needs.build-and-push.outputs.pr_number }}
       TEAM_USER: ${{ secrets.TEAM_USER }}
       TEAM_PASS: ${{ secrets.TEAM_PASS }}
-      ENVIRONMENT_FILE: ${{ secrets.FE_ENV_VARS_PR }}
+      ENVIRONMENT_FILE: ${{ secrets.FE_ENV_PR }}
 
     steps:
       - name: Checkout code
@@ -165,17 +165,20 @@ jobs:
           # prune unnecessary image
           docker image prune -f
   post-comment:
-    needs: deploy
+    needs:
+      - build-and-push
+      - deploy
     runs-on: self-hosted
     env:
       PR_NUMBER: ${{ needs.build-and-push.outputs.pr_number }}
+      QA_DOMAIN: ${{ secrets.QA_DOMAIN }}
     steps:
       - name: Add PR comment
         uses: actions/github-script@v7
         with:
           script: |
-            const domain = "${{ secrets.QA_DOMAIN }}"
-            const message = `🚀 테스트/QA 서버가 배포되었습니다.\n\n- url: `https://fe-pr-${{ env.PR_NUMBER }}.${domain}``;
+            const domain = process.env.QA_DOMAIN;
+            const message = `🚀 PR 프리뷰 서버가 배포되었습니다.\n\nurl: [Preview](https://fe-pr-${{ env.PR_NUMBER }}.${domain})`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
