@@ -12,8 +12,6 @@ function Root() {
   return (
     <>
       <TopBar />
-      <h1>A11yMARKET</h1>
-      <TestComponent />
       <Outlet />
       <Footer />
       {import.meta.env.DEV && <TanStackRouterDevtools />}
