@@ -166,7 +166,12 @@ export default function TopBar() {
           <SheetHeader>
             <SheetTitle>메뉴</SheetTitle>
           </SheetHeader>
-          <ul className='mt-4 flex flex-col space-y-4'>{menuItems(menuItemStyle)}</ul>
+          <ul
+            className='mt-4 flex flex-col space-y-4'
+            aria-label='주요 내비게이션 메뉴'
+          >
+            {menuItems(menuItemStyle)}
+          </ul>
         </SheetContent>
       </Sheet>
       <h1 className='font-kakao-big ml-4 text-4xl font-extrabold'>
