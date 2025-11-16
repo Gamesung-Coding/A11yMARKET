@@ -29,7 +29,7 @@ export default function TopBar() {
   };
 
   const menuItemStyle =
-    'flex items-center justify-center text-center gap-1 text-neutral-700 hover:text-blue-500 cursor-pointer dark:text-neutral-300 dark:hover:text-blue-400 font-kakao-big font-bold text-md 2xl:text-lg';
+    'font-kakao-big text-md flex cursor-pointer items-center justify-center gap-1 text-center font-bold text-neutral-700 hover:text-blue-500 2xl:text-lg dark:text-neutral-300 dark:hover:text-blue-400';
 
   useEffect(() => {});
 
@@ -53,7 +53,7 @@ export default function TopBar() {
             >
               <Icon
                 icon='mdi:logout'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               로그아웃
             </span>
@@ -66,7 +66,7 @@ export default function TopBar() {
             >
               <Icon
                 icon='mdi:account-circle'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               마이페이지
             </Link>
@@ -79,7 +79,7 @@ export default function TopBar() {
             >
               <Icon
                 icon='mdi:cart'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               장바구니
             </Link>
@@ -104,7 +104,7 @@ export default function TopBar() {
               {/* <span className='icon-[line-md--login] w-8 h-8 mt-1'></span> */}
               <Icon
                 icon='mdi:login'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               로그인
             </span>
@@ -117,7 +117,7 @@ export default function TopBar() {
             >
               <Icon
                 icon='mdi:account-plus'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               회원가입
             </Link>
@@ -130,7 +130,7 @@ export default function TopBar() {
             >
               <Icon
                 icon='mdi:cart'
-                className='w-8 h-8'
+                className='h-8 w-8'
               />
               장바구니
             </Link>
@@ -141,7 +141,7 @@ export default function TopBar() {
   };
 
   return (
-    <nav className='min-w-full p-4 bg-white shadow-md flex justify-start xl:justify-between items-center dark:bg-neutral-800'>
+    <nav className='flex min-w-full items-center justify-start bg-white p-4 shadow-md xl:justify-between dark:bg-neutral-800'>
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -163,24 +163,24 @@ export default function TopBar() {
           <SheetHeader>
             <SheetTitle>메뉴</SheetTitle>
           </SheetHeader>
-          <ul className='flex flex-col space-y-4 mt-4'>{menuItems(menuItemStyle)}</ul>
+          <ul className='mt-4 flex flex-col space-y-4'>{menuItems(menuItemStyle)}</ul>
         </SheetContent>
       </Sheet>
-      <h1 className='text-4xl ml-4 font-kakao-big font-extrabold'>
+      <h1 className='font-kakao-big ml-4 text-4xl font-extrabold'>
         <Link
           to='/'
-          className='text-neutral-800 dark:text-neutral-200 hover:text-neutral-500'
+          className='text-neutral-800 hover:text-neutral-500 dark:text-neutral-200'
           aria-label='에일리마켓 홈으로 이동'
         >
           A11yMARKET
         </Link>
       </h1>
 
-      <div className='2xl:w-xl w-md px-4 py-2 hidden xl:flex flex-row justify-center items-center border border-neutral-300 rounded-md focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:focus-within:border-blue-400 dark:focus-within:ring-blue-400'>
+      <div className='hidden w-md flex-row items-center justify-center rounded-md border border-neutral-300 px-4 py-2 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 xl:flex 2xl:w-xl dark:border-neutral-600 dark:bg-neutral-700 dark:focus-within:border-blue-400 dark:focus-within:ring-blue-400'>
         <input
           type='text'
           placeholder='Search...'
-          className='flex-1 h-full text-xl bg-transparent outline-none'
+          className='h-full flex-1 bg-transparent text-xl outline-none'
         />
         <Link
           to='/search'
@@ -197,9 +197,9 @@ export default function TopBar() {
 
       <div
         id='menu'
-        className='hidden xl:flex justify-end items-center'
+        className='hidden items-center justify-end xl:flex'
       >
-        <ul className='flex space-x-6 mr-8'>{menuItems(menuItemStyle)}</ul>
+        <ul className='mr-8 flex space-x-6'>{menuItems(menuItemStyle)}</ul>
       </div>
     </nav>
   );
