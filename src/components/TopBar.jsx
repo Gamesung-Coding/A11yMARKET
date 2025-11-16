@@ -37,19 +37,19 @@ export default function TopBar() {
     if (isLoggedIn) {
       return (
         <>
-          <li>
+          <li aria-label='사용자 이름'>
             <span
               className={`${itemStyle} pt-1 2xl:pt-[0.125em]`}
-              aria-label={`${user.username || '사용자'}님 환영합니다.`}
+              aria-label='사용자 이름 표시'
             >
               {user.username || '사용자'}님
             </span>
           </li>
-          <li>
+          <li aria-label='로그아웃'>
             <span
               onClick={handleLogout}
               className={itemStyle}
-              aria-label='로그아웃'
+              aria-label='로그아웃 버튼'
             >
               <Icon
                 icon='mdi:logout'
@@ -58,7 +58,7 @@ export default function TopBar() {
               로그아웃
             </span>
           </li>
-          <li>
+          <li aria-label='마이페이지'>
             <Link
               to='/profile'
               className={itemStyle}
@@ -71,7 +71,7 @@ export default function TopBar() {
               마이페이지
             </Link>
           </li>
-          <li>
+          <li aria-label='장바구니'>
             <Link
               to='/cart'
               className={itemStyle}
@@ -89,7 +89,7 @@ export default function TopBar() {
     } else {
       return (
         <>
-          <li>
+          <li aria-label='로그인'>
             {/* <Link
                   to='/login'
                   className={itemStyle}
@@ -99,7 +99,7 @@ export default function TopBar() {
             <span
               onClick={handleTestLogin}
               className={itemStyle}
-              aria-label='로그인'
+              aria-label='로그인 버튼'
             >
               {/* <span className='icon-[line-md--login] w-8 h-8 mt-1'></span> */}
               <Icon
@@ -109,11 +109,11 @@ export default function TopBar() {
               로그인
             </span>
           </li>
-          <li>
+          <li aria-label='회원가입'>
             <Link
               to='/register'
               className={itemStyle}
-              aria-label='회원가입'
+              aria-label='회원가입 페이지로 이동'
             >
               <Icon
                 icon='mdi:account-plus'
@@ -122,7 +122,7 @@ export default function TopBar() {
               회원가입
             </Link>
           </li>
-          <li>
+          <li aria-label='장바구니'>
             <Link
               to='/cart'
               className={itemStyle}
@@ -141,7 +141,10 @@ export default function TopBar() {
   };
 
   return (
-    <nav className='flex min-w-full items-center justify-start bg-white p-4 shadow-md xl:justify-between dark:bg-neutral-800'>
+    <nav
+      className='flex min-w-full items-center justify-start bg-white p-4 shadow-md xl:justify-between dark:bg-neutral-800'
+      aria-label='주요 내비게이션 바'
+    >
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -179,13 +182,14 @@ export default function TopBar() {
       <div className='hidden w-md flex-row items-center justify-center rounded-md border border-neutral-300 px-4 py-2 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 xl:flex 2xl:w-xl dark:border-neutral-600 dark:bg-neutral-700 dark:focus-within:border-blue-400 dark:focus-within:ring-blue-400'>
         <input
           type='text'
-          placeholder='Search...'
+          placeholder='검색어를 입력하세요'
           className='h-full flex-1 bg-transparent text-xl outline-none'
+          aria-label='검색어 입력'
         />
         <Link
           to='/search'
           className='ml-2 text-neutral-600 hover:text-blue-500 dark:text-neutral-300 dark:hover:text-blue-400'
-          aria-label='검색하기'
+          aria-label='검색하기 버튼'
         >
           <Icon
             icon='mdi:magnify'
@@ -199,7 +203,12 @@ export default function TopBar() {
         id='menu'
         className='hidden items-center justify-end xl:flex'
       >
-        <ul className='mr-8 flex space-x-6'>{menuItems(menuItemStyle)}</ul>
+        <ul
+          className='mr-8 flex space-x-6'
+          aria-label='주요 내비게이션 메뉴'
+        >
+          {menuItems(menuItemStyle)}
+        </ul>
       </div>
     </nav>
   );
