@@ -116,9 +116,9 @@ jobs:
           export SERVICE_NAME=fe-pr-${{ env.PR_NUMBER }}
 
           echo "IMAGE_TAG=${{ env.IMAGE_NAME }}:pr-${{ env.PR_NUMBER }}" >> $GITHUB_ENV
-          echo "SERVICE_NAME=fe-pr${{ env.PR_NUMBER }}" >> $GITHUB_ENV
-          echo "HOST_NAME=fe-pr${{ env.PR_NUMBER }}.${{ secrets.QA_DOMAIN }}" >> $GITHUB_ENV
-          echo "DEPLOY_PATH=${{ secrets.DOCKER_DIR }}/deployments/fe-pr${{ env.PR_NUMBER }}" >> $GITHUB_ENV
+          echo "SERVICE_NAME=fe-pr-${{ env.PR_NUMBER }}" >> $GITHUB_ENV
+          echo "HOST_NAME=fe-pr-${{ env.PR_NUMBER }}.${{ secrets.QA_DOMAIN }}" >> $GITHUB_ENV
+          echo "DEPLOY_PATH=${{ secrets.DOCKER_DIR }}/deployments/fe-pr-${{ env.PR_NUMBER }}" >> $GITHUB_ENV
 
       - name: Create compose file from template
         run: |
