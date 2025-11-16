@@ -1,5 +1,7 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
+
+@plugin '@iconify/tailwind4';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +119,63 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@font-face {
+  font-family: 'KakaoBig';
+  font-weight: 400;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-big-sans/KakaoBig.woff2') format('woff2'),
+    url('/fonts/kakao-big-sans/KakaoBig.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'KakaoBig';
+  font-weight: 700;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-big-sans/KakaoBig-Bold.woff2') format('woff2'),
+    url('/fonts/kakao-big-sans/KakaoBig-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'KakaoBig';
+  font-weight: 800;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-big-sans/KakaoBig-ExtraBold.woff2') format('woff2'),
+    url('/fonts/kakao-big-sans/KakaoBig-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'KakaoLittle';
+  font-weight: 400;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-little-sans/KakaoLittle.woff2') format('woff2'),
+    url('/fonts/kakao-little-sans/KakaoLittle.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'KakaoLittle';
+  font-weight: 700;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-little-sans/KakaoLittle-Bold.woff2') format('woff2'),
+    url('/fonts/kakao-little-sans/KakaoLittle-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'KakaoLittle';
+  font-weight: 800;
+  font-style: normal;
+  src:
+    url('/fonts/kakao-little-sans/KakaoLittle-ExtraBold.woff2') format('woff2'),
+    url('/fonts/kakao-little-sans/KakaoLittle-ExtraBold.woff') format('woff');
+}
+
+@theme font {
+  --font-kakao-big: 'KakaoBig', sans-serif;
+  --font-kakao-little: 'KakaoLittle', sans-serif;
 }
