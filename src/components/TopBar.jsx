@@ -141,9 +141,9 @@ export default function TopBar() {
   };
 
   return (
-    <nav
-      className='flex min-w-full items-center justify-start bg-white p-4 shadow-md xl:justify-between dark:bg-neutral-800'
-      aria-label='주요 내비게이션 바'
+    <header
+      className='fixed top-0 z-50 flex min-w-full items-center justify-start bg-white p-4 shadow-md xl:justify-between dark:bg-neutral-800'
+      aria-label='상단 헤더 바'
     >
       <Sheet>
         <SheetTrigger asChild>
@@ -204,17 +204,18 @@ export default function TopBar() {
         </Link>
       </div>
 
-      <div
+      <nav
         id='menu'
         className='hidden items-center justify-end xl:flex'
+        aria-label='주요 내비게이션 메뉴'
       >
         <ul
           className='mr-8 flex space-x-6'
-          aria-label='주요 내비게이션 메뉴'
+          aria-label='메뉴 항목 리스트'
         >
           {menuItems(menuItemStyle)}
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
