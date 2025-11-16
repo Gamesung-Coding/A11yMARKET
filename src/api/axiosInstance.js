@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+// let storeInstance;
+//
+// export const injectStore = (store) => {
+//   storeInstance = store;
+// };
+
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
   headers: {
@@ -9,9 +15,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const token = store.getState().auth.token;
-    const token = null;
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    // const token = storeInstance?.getState().auth.token;
+    const token = null; // 임시로 토큰을 가져오는 부분을 비워둠
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => {
