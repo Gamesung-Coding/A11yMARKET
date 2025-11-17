@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <>
       <footer
-        className='mt-12 min-h-40 min-w-screen bg-neutral-100 py-6 text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
+        className='min-h-40 min-w-screen bg-neutral-300 py-6 dark:bg-neutral-600'
         aria-label='웹사이트 푸터 섹션'
       >
         <div className='font-kakao-big container mx-auto flex w-11/12 flex-col items-center justify-evenly space-x-4 px-4 xl:flex-row'>

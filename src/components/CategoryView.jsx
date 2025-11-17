@@ -35,7 +35,7 @@ export function CategoryView({ categories, products, onSelectCategory }) {
       </div>
       <Button
         variant='default'
-        className='mx-auto mt-4 px-8 hover:opacity-80'
+        className='mx-auto mt-4 w-3xs px-8 hover:opacity-80'
       >
         전체 상품 보기
       </Button>
