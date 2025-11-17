@@ -1,6 +1,8 @@
 // src/routes/cart.jsx
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Icon } from "@iconify/react";
+import { Button } from "@/components/ui/button";
 
 // TODO: 서버 / Redux 연동 전까지는 이 mock 데이터로 UI만 확인
 const mockCartData = [
@@ -136,24 +138,24 @@ function CartPage() {
   };
 
   // --- 합계 계산 ---
-  const totals = useMemo(() => {
-    let productTotal = 0;
-    let shippingTotal = 0;
+  const totals = (() => {
+  let productTotal = 0;
+  let shippingTotal = 0;
 
-    cartGroups.forEach((group) => {
-      const groupProductTotal = group.items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      );
-      productTotal += groupProductTotal;
-      shippingTotal += group.shippingFee;
-    });
+  cartGroups.forEach((group) => {
+    const groupProductTotal = group.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    productTotal += groupProductTotal;
+    shippingTotal += group.shippingFee;
+  });
 
-    const discountTotal = 0; // 할인 로직 추가 시 수정
-    const expectedTotal = productTotal + shippingTotal - discountTotal;
+  const discountTotal = 0; // 할인 로직 추가 시 수정
+  const expectedTotal = productTotal + shippingTotal - discountTotal;
 
-    return { productTotal, shippingTotal, discountTotal, expectedTotal };
-  }, [cartGroups]);
+  return { productTotal, shippingTotal, discountTotal, expectedTotal };
+})();
 
   const formatPrice = (value) =>
     value.toLocaleString("ko-KR", { minimumFractionDigits: 0 }) + "원";
@@ -230,13 +232,8 @@ function CartPage() {
 
                 {/* 수량 */}
                 <div className="w-20 text-center text-xs text-gray-700">
-                  {/* 디자인상 "n 개" 느낌 */}
-                  <div className="inline-flex items-center justify-center border border-gray-300 px-3 py-1">
-                    {item.quantity} 개
-                  </div>
 
-                  {/* 실제 수량 조절 필요하면 아래 주석 풀어서 쓰면 됨 */}
-                  {/* <div className="inline-flex items-center border border-gray-300">
+                  { <div className="inline-flex items-center border border-gray-300">
                     <button
                       type="button"
                       onClick={() =>
@@ -256,7 +253,7 @@ function CartPage() {
                     >
                       +
                     </button>
-                  </div> */}
+                  </div> }
                 </div>
 
                 {/* 가격 */}
@@ -266,13 +263,12 @@ function CartPage() {
 
                 {/* 휴지통 아이콘 */}
                 <button
-                  type="button"
-                  onClick={() => handleDeleteOne(group.sellerId, item.id)}
-                  className="w-8 h-8 flex items-center justify-center"
-                  aria-label="상품 삭제"
-                >
-                  {/* 실제 아이콘 대신 임시 텍스트/이모지 */}
-                  <span className="text-lg">🗑️</span>
+                type="button"
+                     onClick={() => handleDeleteOne(group.sellerId, item.id)}
+                        className="w-8 h-8 flex items-center justify-center"
+                            aria-label="상품 삭제"
+>
+                  <Icon icon="mdi:trash" className="size-8" />
                 </button>
               </div>
             ))}
@@ -291,20 +287,22 @@ function CartPage() {
 
       {/* 선택/전체 삭제 버튼 */}
       <div className="flex gap-2 mb-8">
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={handleDeleteSelected}
-          className="px-6 py-2 text-xs border border-gray-400 rounded bg-[#f4f4f4] hover:bg-gray-200"
+          className="px-6 py-2 text-xs bg-[#f4f4f4] hover:bg-gray-200"
         >
           선택 삭제
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="outline"
           onClick={handleDeleteAll}
-          className="px-6 py-2 text-xs border border-gray-400 rounded bg-[#f4f4f4] hover:bg-gray-200"
+          className="px-6 py-2 text-xs bg-[#f4f4f4] hover:bg-gray-200"
         >
           전체 삭제
-        </button>
+        </Button>
       </div>
 
       {/* 결제 정보 박스 */}
@@ -339,20 +337,20 @@ function CartPage() {
         </div>
       </div>
 
-      {/* 하단 주문 버튼 2개 */}
+      {/* 하단 주문 버튼 2개 (Shadcn) */}
       <div className="flex justify-center gap-4">
-        <button
+        <Button
           type="button"
-          className="min-w-[160px] px-6 py-3 text-sm bg-black text-white text-center"
+          className="min-w-[160px] px-6 py-3 text-sm"
         >
           전체 주문하기
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="min-w-[160px] px-6 py-3 text-sm bg-black text-white text-center"
+          className="min-w-[160px] px-6 py-3 text-sm"
         >
           선택 주문하기
-        </button>
+        </Button>
       </div>
     </div>
   );
