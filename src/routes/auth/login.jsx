@@ -1,3 +1,7 @@
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -25,6 +29,18 @@ function RouteComponent() {
         e.preventDefault()
         setErrorMsg('')
 
+        // 이메일 비었는지 확인
+        if (!email.trim()) {
+            setErrorMsg("이메일을 입력해주세요.")
+            return
+        }
+
+        // 비밀번호 비었는지 확인
+        if (!password.trim()) {
+            setErrorMsg("비밀번호를 입력해주세요.")
+            return
+        }
+
         if(email === accountDummy.email && password === accountDummy.password) {
             console.log("로그인 성공 Dummy user: ", accountDummy)
 
@@ -41,52 +57,60 @@ function RouteComponent() {
     <main className="font-kakao-big-sans max-w-md mx-auto py-10 px-4">
         <h1 className="text-2xl font-bold mb-6">로그인</h1>
 
-        <form className="space-y-4">
+        {errorMsg && (
+        <p className="text-red-600 text-sm mb-2">{errorMsg}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="block text-sm font-medium mb-1">
+                <Label htmlFor="email" className="text-sm font-medium">
                     이메일
-                </label>
-                <input
+                </Label>
+                <Input
+                    id="email"
                     type="email"
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     placeholder="이메일을 입력하세요"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium mb-1">
+                <Label htmlFor="password" className="text-sm font-medium">
                     비밀번호
-                </label>
-                <input
+                </Label>
+                <Input
+                    id="password"
                     type="password"
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     placeholder="비밀번호를 입력하세요"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-
-            <button
+            <Button 
                 type="submit"
-                className="w-full bg-black text-white py-3 rounded-md font-semibold text-sm
-               hover:bg-gray-900 transition"
-                >
-            로그인
-            </button>
+                variant="default"
+                className="w-full">
+                로그인
+            </Button>
 
-            <button
+            <Button
                 type="button"
-                onClick={() => navigate({ to: 'auth/join'})}
-                className="w-full border  bg-yellow-300 rounded-md py-3 text-sm font-medium"
+                variant="default"
+                className="w-full bg-yellow-300 text-black hover:bg-yellow-400"
+                onClick={() => alert("카카오 로그인은 준비 중")}
             >
                 카카오로 3초만에 로그인
-            </button>
+            </Button>
 
-            <button
+            <Button
                 type="button"
-                onClick={() => navigate({ to:'auth/join'})}
-                className="w-full border border-black rounded-md py-3 text-sm font-medium"
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate({ to:'/auth/join'})}
             >
                 아직 계정이 없으신가요? 회원가입
-            </button>
+            </Button>
 
 
         </form>
