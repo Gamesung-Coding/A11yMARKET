@@ -33,8 +33,8 @@ export function RealtimeRanking({ data }) {
                   </CardContent>
                   <CardFooter className='flex flex-col items-start gap-2 p-4'>
                     <span className='text-xl font-extrabold'>{item.title}</span>
-                    <span className='text-base font-bold text-neutral-200 dark:text-neutral-300'>
-                      {item.price}원
+                    <span className='text-base font-bold text-neutral-600 dark:text-neutral-300'>
+                      {item.price + '원'}
                     </span>
                   </CardFooter>
                 </Card>

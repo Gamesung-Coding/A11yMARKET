@@ -105,7 +105,10 @@ function HomePage() {
       >
         <div className='flex w-full max-w-7xl flex-col items-center justify-center px-4 py-16 text-center'>
           <h2 className='w-full text-4xl font-bold'>왜 A11yMARKET 일까요?</h2>
-          <p className='mt-4 w-full text-xl'>
+          <p
+            className='mt-4 w-full text-xl'
+            aria-label='쇼핑몰 소개 문구'
+          >
             우리 플랫폼은 누구나 쉽게 쇼핑할 수 있는 환경을 만드는 데 집중하고 있습니다.
           </p>
         </div>

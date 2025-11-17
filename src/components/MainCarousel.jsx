@@ -72,7 +72,12 @@ export const MainCarousel = ({ data }) => {
       </div>
       <div className='mt-6 flex flex-col gap-8 text-center lg:mt-0 lg:text-left'>
         <h2 className='mb-2 text-4xl font-extrabold'>당신에게 꼭 맞는 상품을 쉽게 찾는 쇼핑</h2>
-        <p className='text-xl font-bold text-neutral-600 dark:text-neutral-300'>빠르고 간편하게</p>
+        <p
+          className='text-xl font-bold text-neutral-600 dark:text-neutral-300'
+          aria-label='부제'
+        >
+          빠르고 간편하게
+        </p>
         <div className='flex flex-col gap-8 sm:flex-row sm:justify-center lg:justify-start'>
           <Button
             variant='outline'

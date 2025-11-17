@@ -4,7 +4,10 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 export function CategoryView({ categories, products, onSelectCategory }) {
   return (
     <>
-      <header className='my-8 flex h-16 w-full flex-wrap items-center bg-neutral-300 px-16 text-2xl font-bold dark:bg-neutral-500'>
+      <header
+        className='my-8 flex h-16 w-full flex-wrap items-center bg-neutral-300 px-16 text-2xl font-bold dark:bg-neutral-500'
+        aria-label='카테고리 선택'
+      >
         {categories.map((category) => {
           return (
             <Button
@@ -27,7 +30,7 @@ export function CategoryView({ categories, products, onSelectCategory }) {
               </CardContent>
               <CardFooter className='flex flex-col items-start gap-2 p-4'>
                 <span className='text-lg font-semibold'>{product.title}</span>
-                <span className='text-md font-bold text-neutral-600'>{product.price}원</span>
+                <span className='text-md font-bold text-neutral-600'>{product.price + '원'}</span>
               </CardFooter>
             </Card>
           </div>
