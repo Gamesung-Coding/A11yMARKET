@@ -2,9 +2,9 @@
 import { Icon } from '@iconify/react';
 import { Link, Navigate } from '@tanstack/react-router';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { SheetTrigger } from './ui/sheet';
+import { SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
 export default function TopBar() {
