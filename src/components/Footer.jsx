@@ -7,15 +7,15 @@ export default function Footer() {
   return (
     <>
       <footer
-        className='mt-12 min-h-40 w-full bg-neutral-100 py-6 text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
+        className='min-h-40 min-w-screen bg-neutral-300 py-6 dark:bg-neutral-600'
         aria-label='웹사이트 푸터 섹션'
       >
-        <div className='font-kakao-big container mx-auto flex w-11/12 flex-row items-center justify-evenly space-x-4 px-4'>
+        <div className='font-kakao-big container mx-auto flex w-11/12 flex-col items-center justify-evenly space-x-4 px-4 xl:flex-row'>
           <div className='flex-1'>
             <h4 className='mb-2 text-xl font-extrabold'>A11yMARKET</h4>
             <div className='flex flex-col space-y-1'>
               <p
-                className='text-lg font-bold'
+                className='text-base font-bold xl:text-lg'
                 aria-label='고객 지원 전화번호 및 운영 시간 안내'
               >
                 고객 지원: 1111-1111 09:00 ~ 18:00 KST
@@ -31,8 +31,12 @@ export default function Footer() {
             </div>
           </div>
           <Separator
+            orientation='horizontal'
+            className='my-6 bg-neutral-400 xl:hidden dark:bg-neutral-500'
+          />
+          <Separator
             orientation='vertical'
-            className='mx-6 min-h-30 bg-neutral-400 dark:bg-neutral-500'
+            className='mx-6 hidden min-h-30 bg-neutral-400 xl:block dark:bg-neutral-500'
           />
           <div className='grid flex-1 grid-cols-2 gap-x-8 gap-y-2 text-base'>
             <ul
@@ -77,8 +81,12 @@ export default function Footer() {
             </ul>
           </div>
           <Separator
+            orientation='horizontal'
+            className='my-6 bg-neutral-400 xl:hidden dark:bg-neutral-500'
+          />
+          <Separator
             orientation='vertical'
-            className='mx-6 min-h-30 bg-neutral-400 dark:bg-neutral-500'
+            className='mx-6 hidden min-h-30 bg-neutral-400 xl:block dark:bg-neutral-500'
           />
           <div className='flex-1'>
             <ul aria-label='회사 정보'>
