@@ -95,8 +95,8 @@ function RouteComponent() {
   ]
 
   return (
-    <div className="flex justify-center mt-5">
-      <div className="w-[800px]">
+    <div className="flex justify-center mt-20">
+      <div className="w-full max-w-2xl py-8">
         <h1 className="text-2xl mb-5">배송지 관리</h1>
 
         <div className="flex mb-0">
