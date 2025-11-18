@@ -9,21 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-<<<<<<< HEAD
+import { Route as ProductsRouteImport } from './routes/products'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
-
-const CartRoute = CartRouteImport.update({
-  id: '/cart',
-  path: '/cart',
-=======
-import { Route as ProductsRouteImport } from './routes/products'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthJoinRouteImport } from './routes/auth/join'
 
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,71 +30,69 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthJoinRoute = AuthJoinRouteImport.update({
+  id: '/auth/join',
+  path: '/auth/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-<<<<<<< HEAD
   '/cart': typeof CartRoute
+  '/products': typeof ProductsRoute
+  '/auth/join': typeof AuthJoinRoute
+  '/auth/login': typeof AuthLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
-=======
   '/products': typeof ProductsRoute
-}
-export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/products': typeof ProductsRoute
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+  '/auth/join': typeof AuthJoinRoute
+  '/auth/login': typeof AuthLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-<<<<<<< HEAD
   '/cart': typeof CartRoute
-}
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart'
-  id: '__root__' | '/' | '/cart'
-=======
   '/products': typeof ProductsRoute
+  '/auth/join': typeof AuthJoinRoute
+  '/auth/login': typeof AuthLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/products'
+  fullPaths: '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/products'
-  id: '__root__' | '/' | '/products'
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+  to: '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
+  id: '__root__' | '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-<<<<<<< HEAD
   CartRoute: typeof CartRoute
-=======
   ProductsRoute: typeof ProductsRoute
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+  AuthJoinRoute: typeof AuthJoinRoute
+  AuthLoginRoute: typeof AuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-<<<<<<< HEAD
-    '/cart': {
-      id: '/cart'
-      path: '/cart'
-      fullPath: '/cart'
-      preLoaderRoute: typeof CartRouteImport
-=======
     '/products': {
       id: '/products'
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof ProductsRouteImport
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -105,16 +102,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/join': {
+      id: '/auth/join'
+      path: '/auth/join'
+      fullPath: '/auth/join'
+      preLoaderRoute: typeof AuthJoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-<<<<<<< HEAD
   CartRoute: CartRoute,
-=======
   ProductsRoute: ProductsRoute,
->>>>>>> f3b7eb7 (Feat(product-list): 상품 목록 조회 페이지 UI 및 기능 구현)
+  AuthJoinRoute: AuthJoinRoute,
+  AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

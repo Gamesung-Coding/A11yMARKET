@@ -117,7 +117,7 @@ function ProductListPage() {
     value.toLocaleString("ko-KR", { minimumFractionDigits: 0 }) + "원";
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10 text-[#333333]">
+      <div className="max-w-5xl mx-auto px-4 py-10 mt-20 text-[#333333]">
       {/* 상단 필터 테이블 영역 */}
       <section className="border border-gray-300 text-xs mb-10">
         {/* 카테고리 */}
