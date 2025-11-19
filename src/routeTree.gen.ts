@@ -9,12 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+<<<<<<< HEAD
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as CartRouteImport } from './routes/cart'
+=======
+import { Route as A11ytestRouteImport } from './routes/a11ytest'
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthJoinRouteImport } from './routes/auth/join'
 
+<<<<<<< HEAD
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -23,6 +28,11 @@ const ProductsRoute = ProductsRouteImport.update({
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+=======
+const A11ytestRoute = A11ytestRouteImport.update({
+  id: '/a11ytest',
+  path: '/a11ytest',
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,6 +53,7 @@ const AuthJoinRoute = AuthJoinRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+<<<<<<< HEAD
   '/cart': typeof CartRoute
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
@@ -54,10 +65,18 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
   '/auth/login': typeof AuthLoginRoute
+=======
+  '/a11ytest': typeof A11ytestRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/a11ytest': typeof A11ytestRoute
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+<<<<<<< HEAD
   '/cart': typeof CartRoute
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
@@ -69,18 +88,33 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
   id: '__root__' | '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
+=======
+  '/a11ytest': typeof A11ytestRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/a11ytest'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/a11ytest'
+  id: '__root__' | '/' | '/a11ytest'
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+<<<<<<< HEAD
   CartRoute: typeof CartRoute
   ProductsRoute: typeof ProductsRoute
   AuthJoinRoute: typeof AuthJoinRoute
   AuthLoginRoute: typeof AuthLoginRoute
+=======
+  A11ytestRoute: typeof A11ytestRoute
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+<<<<<<< HEAD
     '/products': {
       id: '/products'
       path: '/products'
@@ -93,6 +127,13 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+=======
+    '/a11ytest': {
+      id: '/a11ytest'
+      path: '/a11ytest'
+      fullPath: '/a11ytest'
+      preLoaderRoute: typeof A11ytestRouteImport
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -121,10 +162,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+<<<<<<< HEAD
   CartRoute: CartRoute,
   ProductsRoute: ProductsRoute,
   AuthJoinRoute: AuthJoinRoute,
   AuthLoginRoute: AuthLoginRoute,
+=======
+  A11ytestRoute: A11ytestRoute,
+>>>>>>> 34a2d9f (chroe/#12: update auto-generated routeTree and package metadata)
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
