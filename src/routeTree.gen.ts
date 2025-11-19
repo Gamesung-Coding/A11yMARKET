@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProductsRouteImport } from './routes/products'
+import { Route as ProductIdRouteImport } from './routes/productId'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthJoinRouteImport } from './routes/auth/join'
+import { Route as MypageAddressIndexRouteImport } from './routes/mypage/address/index'
 
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductIdRoute = ProductIdRouteImport.update({
+  id: '/productId',
+  path: '/productId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -40,43 +47,78 @@ const AuthJoinRoute = AuthJoinRouteImport.update({
   path: '/auth/join',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MypageAddressIndexRoute = MypageAddressIndexRouteImport.update({
+  id: '/mypage/address/',
+  path: '/mypage/address/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/productId': typeof ProductIdRoute
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
   '/auth/login': typeof AuthLoginRoute
+  '/mypage/address': typeof MypageAddressIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/productId': typeof ProductIdRoute
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
   '/auth/login': typeof AuthLoginRoute
+  '/mypage/address': typeof MypageAddressIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/productId': typeof ProductIdRoute
   '/products': typeof ProductsRoute
   '/auth/join': typeof AuthJoinRoute
   '/auth/login': typeof AuthLoginRoute
+  '/mypage/address/': typeof MypageAddressIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
+  fullPaths:
+    | '/'
+    | '/cart'
+    | '/productId'
+    | '/products'
+    | '/auth/join'
+    | '/auth/login'
+    | '/mypage/address'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
-  id: '__root__' | '/' | '/cart' | '/products' | '/auth/join' | '/auth/login'
+  to:
+    | '/'
+    | '/cart'
+    | '/productId'
+    | '/products'
+    | '/auth/join'
+    | '/auth/login'
+    | '/mypage/address'
+  id:
+    | '__root__'
+    | '/'
+    | '/cart'
+    | '/productId'
+    | '/products'
+    | '/auth/join'
+    | '/auth/login'
+    | '/mypage/address/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
+  ProductIdRoute: typeof ProductIdRoute
   ProductsRoute: typeof ProductsRoute
   AuthJoinRoute: typeof AuthJoinRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  MypageAddressIndexRoute: typeof MypageAddressIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productId': {
+      id: '/productId'
+      path: '/productId'
+      fullPath: '/productId'
+      preLoaderRoute: typeof ProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -116,15 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthJoinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mypage/address/': {
+      id: '/mypage/address/'
+      path: '/mypage/address'
+      fullPath: '/mypage/address'
+      preLoaderRoute: typeof MypageAddressIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
+  ProductIdRoute: ProductIdRoute,
   ProductsRoute: ProductsRoute,
   AuthJoinRoute: AuthJoinRoute,
   AuthLoginRoute: AuthLoginRoute,
+  MypageAddressIndexRoute: MypageAddressIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
