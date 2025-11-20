@@ -55,14 +55,14 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Page Content */}
-      <main className="flex-1 flex flex-col pt-20">
-        {/* Top breadcrumb bar */}
-        <div className="w-full bg-gray-100 border-b border-gray-300 px-6 py-3 text-gray-800 font-medium mb-4">
+      <main className="flex-1 flex flex-col pt-20 font-kakao-big">
+        {/* Top NavPathLabel bar */}
+        <div className="w-full bg-gray-100 border-b border-gray-300 px-6 py-3 text-gray-800 font-medium mb-4 font-kakao-big">
           {navPathLabel()}
         </div>
 
         {/* Page content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 font-kakao-big">
           {children || (
             <div className="text-gray-800 text-lg">
               {/* Content */}

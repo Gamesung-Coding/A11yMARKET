@@ -30,13 +30,13 @@ function RouteComponent() {
 
     return (
         <AdminLayout>
-        <div className="text-3xl font-semibold text-center mb-10">관리자페이지</div>
+        <div className="text-3xl font-semibold text-center mb-10 font-kakao-big">관리자페이지</div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="bg-white shadow-md">
             <CardContent>
-                <div className="text-lg font-medium mb-2">승인 대기 판매자</div>
-                <div className="text-gray-600">현재 승인 대기 판매자는 {pendingSellers.length}명 입니다.</div>
+                <div className="text-lg font-medium mb-2 font-kakao-big">승인 대기 판매자</div>
+                <div className="text-gray-600 font-kakao-big">현재 승인 대기 판매자는 {pendingSellers.length}명 입니다.</div>
             </CardContent>
             <CardFooter>
                 <Link to="/admin/sellers" className="w-full block">
@@ -49,8 +49,8 @@ function RouteComponent() {
 
             <Card className="bg-white shadow-md">
             <CardContent>
-                <div className="text-lg font-medium mb-2">미승인 상품</div>
-                <div className="text-gray-600">현재 미승인 상품 수는 {pendingProducts.length}개 입니다.</div>
+                <div className="text-lg font-medium mb-2 font-kakao-big">미승인 상품</div>
+                <div className="text-gray-600 font-kakao-big">현재 미승인 상품 수는 {pendingProducts.length}개 입니다.</div>
             </CardContent>
             <CardFooter>
                 <Link to="/admin/products" className="w-full block">
@@ -63,8 +63,8 @@ function RouteComponent() {
 
             <Card className="bg-white shadow-md">
             <CardContent>
-                <div className="text-lg font-medium mb-2">접근성 인증 대기 판매자</div>
-                <div className="text-gray-600">현재 접근성 인증 대기 판매자는 {pendingAccessibility.length}명 입니다.</div>
+                <div className="text-lg font-medium mb-2 font-kakao-big">접근성 인증 대기 판매자</div>
+                <div className="text-gray-600 font-kakao-big">현재 접근성 인증 대기 판매자는 {pendingAccessibility.length}명 입니다.</div>
             </CardContent>
             <CardFooter>
                 <Link to="/admin/accessibility" className="w-full block">
