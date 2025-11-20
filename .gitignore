@@ -25,4 +25,9 @@ dist-ssr
 
 __tests__
 
+<<<<<<< HEAD
 .tanstack
+=======
+.tanstack
+routeTree.gen.ts
+>>>>>>> 7718a88 (chore: ignore routeTree.gen.ts)
