@@ -28,28 +28,30 @@ export default function AdminLayout({ children }) {
     <div className="flex w-full min-h-screen bg-gray-50">
       <aside className="w-48 border-r bg-white flex flex-col">
         <h2 className="text-lg font-bold p-6 border-b">관리자 메뉴</h2>
+        <nav aria-label="관리자 페이지 내비게이션">
 
-        {/* Navigation Buttons - 좌우 센터, 위쪽 고정 */}
-        <div className="flex flex-col items-center mt-4">
-          <NavigationMenu orientation="vertical" className="w-full">
-            <NavigationMenuList className="flex flex-col w-full px-0 space-y-2">
-              {menuItems.map((item) => {
-                const active = currentPath === item.path;
-                return (
-                  <NavigationMenuItem key={item.path} className="w-full">
-                    <Link
-                      to={item.path}
-                      className={`block w-full py-4 text-center text-base font-medium rounded transition
-                        ${active ? "bg-gray-300 font-semibold" : "hover:bg-gray-200"}`}
-                    >
-                      {item.label}
-                    </Link>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+          {/* Navigation Buttons */}
+          <div className="flex flex-col items-center mt-4">
+            <NavigationMenu orientation="vertical" className="w-full">
+              <NavigationMenuList className="flex flex-col w-full px-0 space-y-2">
+                {menuItems.map((item) => {
+                  const active = currentPath === item.path;
+                  return (
+                    <NavigationMenuItem key={item.path} className="w-full">
+                      <Link
+                        to={item.path}
+                        className={`block w-full py-4 text-center text-base font-medium rounded transition
+                          ${active ? "bg-gray-300 font-semibold" : "hover:bg-gray-200"}`}
+                      >
+                        {item.label}
+                      </Link>
+                    </NavigationMenuItem>
+                  );
+                })}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        </nav>
       </aside>
 
       {/* Page Content */}
