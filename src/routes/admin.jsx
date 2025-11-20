@@ -35,40 +35,51 @@ function RouteComponent() {
 
   return (
     <div className='flex min-h-screen w-full bg-gray-50'>
-      <aside className='flex w-48 flex-col border-r bg-white'>
+      <aside
+        className='flex w-48 flex-col border-r bg-white'
+        aria-label='관리자 메뉴 보조 영역'
+      >
         <h2 className='border-b p-6 text-lg font-bold'>관리자 메뉴</h2>
-        <nav aria-label='관리자 페이지 내비게이션'>
-          {/* Navigation Buttons */}
-          <div className='mt-4 flex flex-col items-center'>
-            <NavigationMenu
-              orientation='vertical'
-              className='w-full'
+
+        {/* Navigation Buttons */}
+        <div className='mt-4 flex flex-col items-center'>
+          <NavigationMenu
+            orientation='vertical'
+            className='w-full'
+            aria-label='관리자 페이지 내비게이션'
+          >
+            <NavigationMenuList
+              className='flex w-full flex-col space-y-2 px-0'
+              aria-label='관리자 페이지 메뉴 목록'
             >
-              <NavigationMenuList className='flex w-full flex-col space-y-2 px-0'>
-                {menuItems.map((item) => {
-                  const active = currentPath === item.path;
-                  return (
-                    <NavigationMenuItem
-                      key={item.path}
-                      className='w-full'
+              {menuItems.map((item) => {
+                const active = currentPath === item.path;
+                return (
+                  <NavigationMenuItem
+                    key={item.path}
+                    className='w-full'
+                    aria-label={`${item.label} 페이지로 이동`}
+                  >
+                    <Link
+                      to={item.path}
+                      aria-label={`${item.label} 페이지로 이동`}
+                      className={`block w-full rounded py-4 text-center text-base font-medium transition ${active ? 'bg-gray-300 font-semibold' : 'hover:bg-gray-200'}`}
                     >
-                      <Link
-                        to={item.path}
-                        className={`block w-full rounded py-4 text-center text-base font-medium transition ${active ? 'bg-gray-300 font-semibold' : 'hover:bg-gray-200'}`}
-                      >
-                        {item.label}
-                      </Link>
-                    </NavigationMenuItem>
-                  );
-                })}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-        </nav>
+                      {item.label}
+                    </Link>
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
       </aside>
 
       {/* Page Content */}
-      <main className='font-kakao-big flex flex-1 flex-col pt-20'>
+      <main
+        className='font-kakao-big flex flex-1 flex-col pt-20'
+        aria-label='관리자페이지 내용 영역'
+      >
         {/* Top NavPathLabel bar */}
         <div className='font-kakao-big mb-4 w-full border-b border-gray-300 bg-gray-100 px-6 py-3 font-medium text-gray-800'>
           {navPathLabel()}
