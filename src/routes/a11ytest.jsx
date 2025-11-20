@@ -11,7 +11,7 @@ function RouteComponent() {
   const [open, setOpen] = useState(true)
 
   return (
-    <main className="p-6 font-kakao-big-sans">
+    <main className="p-6 font-kakao-big">
       <button
         onClick={() => setOpen(true)}
         className="px-4 py-2 rounded border bg-white hover:bg-gray-100"
