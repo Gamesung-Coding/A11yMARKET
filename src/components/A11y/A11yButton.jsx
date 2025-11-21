@@ -11,6 +11,7 @@ export default function A11yButton() {
       {/* Floating Button */}
       <Button
         onClick={() => setOpen(true)}
+        aria-label="접근성 설정 열기"
         className='fixed right-6 bottom-6 z-50 flex size-18 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700'
       >
         <Settings2

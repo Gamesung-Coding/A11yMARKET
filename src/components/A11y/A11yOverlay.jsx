@@ -132,6 +132,8 @@ export default function A11yOverlay({ open, onClose }) {
       <SheetContent
         side='right'
         className='flex w-full max-w-sm flex-col p-0'
+        role='dialog'
+        aria-label='접근성 설정 패널'
       >
         {/* 고정 헤더 */}
         <SheetHeader className='border-b p-4'>
@@ -140,7 +142,7 @@ export default function A11yOverlay({ open, onClose }) {
           </SheetTitle>
         </SheetHeader>
 
-        <div className='fex-1 overflow-y-auto'>
+        <div className='flex-1 overflow-y-auto'>
           {/* 언어 / 프로필 (일단 UI만, 나중에 기능 붙이기) */}
           <div className='space-y-3 border-b px-4 pb-6'>
             {/* 언어 선택 */}
@@ -150,7 +152,10 @@ export default function A11yOverlay({ open, onClose }) {
                 value={selectedLang}
                 onValueChange={(val) => setSelectedLang(val)}
               >
-                <SelectTrigger className='mt-1 w-full'>
+                <SelectTrigger
+                  className='mt-1 w-full'
+                  aria-label='언어 선택 드롭다운'
+                >
                   <SelectValue placeholder='언어 선택' />
                 </SelectTrigger>
                 <SelectContent>
@@ -158,6 +163,7 @@ export default function A11yOverlay({ open, onClose }) {
                     <SelectItem
                       key={lang.code}
                       value={lang.code}
+                      aria-label={`언어 선택: ${lang.label}`}
                     >
                       {lang.label}
                     </SelectItem>
@@ -176,7 +182,10 @@ export default function A11yOverlay({ open, onClose }) {
                   dispatch(resetAll());
                 }}
               >
-                <SelectTrigger className='mt-1 w-full'>
+                <SelectTrigger
+                  className='mt-1 w-full'
+                  aria-label='접근성 프로필 선택'
+                >
                   <SelectValue placeholder='프로필 선택' />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,6 +193,7 @@ export default function A11yOverlay({ open, onClose }) {
                     <SelectItem
                       key={key}
                       value={key}
+                      aria-label={`접근성 프로필: ${profile.label}`}
                     >
                       {profile.label}
                     </SelectItem>
@@ -213,7 +223,10 @@ export default function A11yOverlay({ open, onClose }) {
                       if (selectedMode) applyProfileSettings(selectedMode.settings);
                     }}
                   >
-                    <SelectTrigger className='mt-1 w-full'>
+                    <SelectTrigger
+                      className='mt-1 w-full'
+                      aria-label='접근성 세부 모드 선택'
+                    >
                       <SelectValue placeholder='세부 모드 선택' />
                     </SelectTrigger>
 
@@ -222,6 +235,7 @@ export default function A11yOverlay({ open, onClose }) {
                         <SelectItem
                           key={item.id}
                           value={item.id}
+                          aria-label={`세부 모드: ${item.name}`}
                         >
                           {item.name}
                         </SelectItem>
@@ -237,6 +251,8 @@ export default function A11yOverlay({ open, onClose }) {
             {/* 1행 */}
             <Button
               variant='outline'
+              aria-label='스크린 리더 모드'
+              aria-pressed={screenReader}
               className={`${boxBase} ${screenReader ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(toggleScreenReader())}
             >
@@ -256,6 +272,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
+              aria-label='대비 조절'
+              aria-pressed={contrastLevel > 0}
               onClick={() => dispatch(cycleContrast())}
               className={`${boxBase} ${contrastLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
             >
@@ -288,7 +306,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
-              type='button'
+              aria-label='스마트 대비 적용'
+              aria-pressed={smartContrast}
               onClick={() => dispatch(toggleSmartContrast())}
               className={`${boxBase} ${smartContrast ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
             >
@@ -309,6 +328,8 @@ export default function A11yOverlay({ open, onClose }) {
             {/* 2행 */}
             <Button
               variant='outline'
+              aria-label='링크 강조 표시'
+              aria-pressed={highlightLinks}
               className={`${boxBase} ${highlightLinks ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(toggleHighlightLinks())}
             >
@@ -328,6 +349,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
+              aria-label='글자 크기 조절'
+              aria-pressed={textSizeLevel > 0}
               className={`${boxBase} ${textSizeLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(cycleTextSize())}
             >
@@ -359,6 +382,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
+              aria-label='글자 간격 조절'
+              aria-pressed={textSpacingLevel > 0}
               className={`${boxBase} ${textSpacingLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(cycleTextSpacing())}
             >
@@ -391,6 +416,8 @@ export default function A11yOverlay({ open, onClose }) {
             {/* 3행 */}
             <Button
               variant='outline'
+              aria-label='마우스 커서 강조'
+              aria-pressed={cursorHighlight}
               className={`${boxBase} ${cursorHighlight ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(toggleCursorHighlight())}
             >
@@ -410,6 +437,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
+              aria-label='텍스트 정렬 변경'
+              aria-pressed={textAlign !== 'left'}
               className={`${boxBase} ${textAlign !== 'left' ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(cycleTextAlign())}
             >
@@ -461,6 +490,8 @@ export default function A11yOverlay({ open, onClose }) {
 
             <Button
               variant='outline'
+              aria-label='줄 간격 확대'
+              aria-pressed={lineHeightLevel > 0}
               className={`${boxBase} ${lineHeightLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(cycleLineHeight())}
             >
@@ -496,6 +527,7 @@ export default function A11yOverlay({ open, onClose }) {
             <Button
               variant='default'
               className='w-full'
+              aria-label='접근성 설정 초기화'
               onClick={() => dispatch(resetAll())}
             >
               모든 접근성 설정 리셋
@@ -504,6 +536,7 @@ export default function A11yOverlay({ open, onClose }) {
             <Button
               variant='default'
               className='w-full'
+              aria-label='접근성 설정 저장'
               onClick={handleSave}
             >
               저장하기
@@ -512,6 +545,7 @@ export default function A11yOverlay({ open, onClose }) {
             <Button
               variant='default'
               className='w-full'
+              aria-label='접근성 설정 닫기'
               onClick={onClose}
             >
               <span>위젯 숨기기/이동</span>
