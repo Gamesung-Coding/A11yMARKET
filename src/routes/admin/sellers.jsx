@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   Table,
   TableBody,
@@ -93,11 +93,15 @@ function RouteComponent() {
 
           <TableBody>
             {sellers.map((seller) => (
-              <React.Fragment key={seller.sellerId}>
+              <Fragment key={seller.sellerId}>
                 <TableRow
+                  id={`seller-row-${seller.sellerId}`}
                   className='cursor-pointer hover:bg-gray-100'
                   onClick={() => toggleRow(seller.sellerId)}
-                  aria-label='승인대기 판매자 행'
+                  aria-expanded={expandedRows.includes(seller.sellerId)}
+                  aria-controls={`seller-details-${seller.sellerId}`}
+                  aria-label='판매자 상세보기 토글'
+                  role='row'
                 >
                   <TableCell className='text-center'>{seller.name}</TableCell>
                   <TableCell className='text-center'>{seller.sellerId}</TableCell>
@@ -112,6 +116,7 @@ function RouteComponent() {
                             e.stopPropagation();
                             handleApprove(seller.sellerId);
                           }}
+                          aria-label='판매자 신청 승인 버튼'
                         >
                           승인
                         </Button>
@@ -122,6 +127,7 @@ function RouteComponent() {
                             e.stopPropagation();
                             handleReject(seller.sellerId);
                           }}
+                          aria-label='판매자 신청 거절 버튼'
                         >
                           거절
                         </Button>
@@ -129,7 +135,7 @@ function RouteComponent() {
                     ) : (
                       <>
                         <span className='px-4 py-2 font-medium'>
-                          {sellerStatus[seller.sellerId] === 'approved' ? '승인' : '거절'}
+                          {sellerStatus[seller.sellerId] === 'approved' ? '승인됨' : '거절됨'}
                         </span>
                         <Button
                           variant='default'
@@ -138,6 +144,7 @@ function RouteComponent() {
                             e.stopPropagation();
                             handleCancel(seller.sellerId);
                           }}
+                          aria-label='판매자 승인/거절 취소 버튼'
                         >
                           취소
                         </Button>
@@ -147,32 +154,42 @@ function RouteComponent() {
                 </TableRow>
 
                 {expandedRows.includes(seller.sellerId) && (
-                  <TableRow>
+                  <TableRow role='row'>
                     <TableCell
                       colSpan={4}
                       className='bg-gray-100'
                     >
-                      <div className='space-y-1 p-4'>
-                        <div>
-                          <strong>판매자명:</strong> {seller.name}
+                      <dl
+                        id={`seller-details-${seller.sellerId}`}
+                        role='region'
+                        aria-labelledby={`seller-row-${seller.sellerId}`}
+                        className='space-y-1 p-4'
+                      >
+                        <div className='flex gap-2'>
+                          <dt className='font-semibold'>판매자명: </dt>
+                          <dd>{seller.name}</dd>
                         </div>
-                        <div>
-                          <strong>판매자ID:</strong> {seller.sellerId}
+                        <div className='flex gap-2'>
+                          <dt className='font-semibold'>판매자ID: </dt>
+                          <dd>{seller.sellerId}</dd>
                         </div>
-                        <div>
-                          <strong>상호명:</strong> {seller.company}
+                        <div className='flex gap-2'>
+                          <dt className='font-semibold'>상호명: </dt>
+                          <dd>{seller.company}</dd>
                         </div>
-                        <div>
-                          <strong>사업자번호:</strong> {seller.businessNumber}
+                        <div className='flex gap-2'>
+                          <dt className='font-semibold'>사업자번호: </dt>
+                          <dd>{seller.businessNumber}</dd>
                         </div>
-                        <div>
-                          <strong>판매자소개:</strong> {seller.sellerIntro}
+                        <div className='flex gap-2'>
+                          <dt className='font-semibold'>판매자 소개: </dt>
+                          <dd>{seller.sellerIntro}</dd>
                         </div>
-                      </div>
+                      </dl>
                     </TableCell>
                   </TableRow>
                 )}
-              </React.Fragment>
+              </Fragment>
             ))}
           </TableBody>
         </Table>
