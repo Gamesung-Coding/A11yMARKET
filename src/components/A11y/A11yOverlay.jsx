@@ -1,5 +1,6 @@
 // src/components/A11y/A11yOverlay.jsx
 
+import { updateUserA11ySettings } from '@/api/a11yAPI';
 import { useState } from 'react';
 import { A11Y_PROFILES } from '@/lib/a11y/profiles';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -50,6 +51,18 @@ const languages = [
 
 export default function A11yOverlay({ open, onClose }) {
   const dispatch = useDispatch();
+
+  const a11yState = useSelector((state) => state.a11y);
+
+  const handleSave = async () => {
+    try {
+      await updateUserA11ySettings(a11yState);
+      alert('접근성 설정이 저장되었습니다.');
+      onClose();
+    } catch (error) {
+      alert('저장 중 오류가 발생했습니다.');
+    }
+  };
 
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -118,385 +131,395 @@ export default function A11yOverlay({ open, onClose }) {
     >
       <SheetContent
         side='right'
-        className='w-full max-w-sm p-0'
+        className='flex w-full max-w-sm flex-col p-0'
       >
-        {/* 헤더 */}
-        <SheetHeader className='border-b'>
+        {/* 고정 헤더 */}
+        <SheetHeader className='border-b p-4'>
           <SheetTitle className='font-kakao-big text-lg font-bold'>
             접근성 설정 메뉴 (CTRL + U)
           </SheetTitle>
         </SheetHeader>
 
-        {/* 언어 / 프로필 (일단 UI만, 나중에 기능 붙이기) */}
-        <div className='space-y-3 border-b px-4 pb-6'>
-          {/* 언어 선택 */}
-          <div>
-            <label className='text-sm font-medium'>언어</label>
-            <Select
-              value={selectedLang}
-              onValueChange={(val) => setSelectedLang(val)}
-            >
-              <SelectTrigger className='mt-1 w-full'>
-                <SelectValue placeholder='언어 선택' />
-              </SelectTrigger>
-              <SelectContent>
-                {languages.map((lang) => (
-                  <SelectItem
-                    key={lang.code}
-                    value={lang.code}
-                  >
-                    {lang.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <label className='text-sm font-medium'>접근성 프로필</label>
-            <Select
-              value={selectedProfile ?? ''}
-              onValueChange={(val) => {
-                setSelectedProfile(val);
-                setSelectedSubMode(null); //세부 모드 초기화
-                dispatch(resetAll());
-              }}
-            >
-              <SelectTrigger className='mt-1 w-full'>
-                <SelectValue placeholder='프로필 선택' />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(A11Y_PROFILES).map(([key, profile]) => (
-                  <SelectItem
-                    key={key}
-                    value={key}
-                  >
-                    {profile.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* 세부 모드 (custom 제외) */}
-          {selectedProfile &&
-            selectedProfile !== 'custom' &&
-            A11Y_PROFILES[selectedProfile].items.length > 0 && (
-              <div>
-                <label className='text-sm font-medium'>세부 모드 선택</label>
-
-                <Select
-                  value={selectedSubMode ?? ''}
-                  onValueChange={(modeId) => {
-                    setSelectedSubMode(modeId);
-
-                    dispatch(resetAll());
-
-                    const selectedMode = A11Y_PROFILES[selectedProfile].items.find(
-                      (item) => item.id === modeId,
-                    );
-
-                    if (selectedMode) applyProfileSettings(selectedMode.settings);
-                  }}
-                >
-                  <SelectTrigger className='mt-1 w-full'>
-                    <SelectValue placeholder='세부 모드 선택' />
-                  </SelectTrigger>
-
-                  <SelectContent>
-                    {A11Y_PROFILES[selectedProfile].items.map((item) => (
-                      <SelectItem
-                        key={item.id}
-                        value={item.id}
-                      >
-                        {item.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-        </div>
-
-        {/* 옵션 그리드 */}
-        <div className='grid flex-1 grid-cols-3 gap-3 overflow-y-auto px-4 py-4'>
-          {/* 1행 */}
-          <Button
-            variant='outline'
-            className={`${boxBase} ${screenReader ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(toggleScreenReader())}
-          >
-            <Volume2
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>스크린 리더</span>
-
-            {screenReader && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-          </Button>
-
-          <Button
-            variant='outline'
-            onClick={() => dispatch(cycleContrast())}
-            className={`${boxBase} ${contrastLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-          >
-            <Contrast
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>대비 +</span>
-
-            {/* 체크표시 */}
-            {contrastLevel > 0 && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-
-            {/* 단계 바 */}
-            <div className='mt-3 flex gap-1'>
-              {[1, 2, 3].map((step) => (
-                <div
-                  key={step}
-                  className={`h-1 w-6 rounded-full ${
-                    contrastLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
-                  }`}
-                />
-              ))}
-            </div>
-          </Button>
-
-          <Button
-            variant='outline'
-            type='button'
-            onClick={() => dispatch(toggleSmartContrast())}
-            className={`${boxBase} ${smartContrast ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-          >
-            <Lightbulb
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>스마트 대비</span>
-
-            {smartContrast && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-          </Button>
-
-          {/* 2행 */}
-          <Button
-            variant='outline'
-            className={`${boxBase} ${highlightLinks ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(toggleHighlightLinks())}
-          >
-            <Link
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>링크 강조 표시</span>
-
-            {highlightLinks && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-          </Button>
-
-          <Button
-            variant='outline'
-            className={`${boxBase} ${textSizeLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(cycleTextSize())}
-          >
-            <AArrowUp
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>큰 글씨</span>
-
-            {textSizeLevel > 0 && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-
-            {/* 단계 바 */}
-            <div className='mt-3 flex gap-1'>
-              {[1, 2].map((step) => (
-                <div
-                  key={step}
-                  className={`h-1 w-6 rounded-full ${
-                    textSizeLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
-                  }`}
-                />
-              ))}
-            </div>
-          </Button>
-
-          <Button
-            variant='outline'
-            className={`${boxBase} ${textSpacingLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(cycleTextSpacing())}
-          >
-            <StretchHorizontal
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>자간 간격</span>
-
-            {textSpacingLevel > 0 && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-
-            {/* 단계 바 */}
-            <div className='mt-3 flex gap-1'>
-              {[1, 2].map((step) => (
-                <div
-                  key={step}
-                  className={`h-1 w-6 rounded-full ${
-                    textSpacingLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
-                  }`}
-                />
-              ))}
-            </div>
-          </Button>
-
-          {/* 3행 */}
-          <Button
-            variant='outline'
-            className={`${boxBase} ${cursorHighlight ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(toggleCursorHighlight())}
-          >
-            <MousePointer
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>마우스 커서</span>
-
-            {cursorHighlight && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-          </Button>
-
-          <Button
-            variant='outline'
-            className={`${boxBase} ${textAlign !== 'left' ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(cycleTextAlign())}
-          >
-            {textAlign === 'left' && (
-              <AlignLeft
-                className={iconSize}
-                strokeWidth={2}
-              />
-            )}
-            {textAlign === 'center' && (
-              <AlignCenter
-                className={iconSize}
-                strokeWidth={2}
-              />
-            )}
-            {textAlign === 'right' && (
-              <AlignRight
-                className={iconSize}
-                strokeWidth={2}
-              />
-            )}
-            <span>텍스트 정렬</span>
-
-            {textAlign !== 'left' && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-
-            {/* 단계 바 */}
-            {(() => {
-              const textAlignLevel = textAlign === 'left' ? 0 : textAlign === 'center' ? 1 : 2;
-
-              return (
-                <div className='mt-3 flex gap-1'>
-                  {[1, 2].map((step) => (
-                    <div
-                      key={step}
-                      className={`h-1 w-6 rounded-full ${
-                        textAlignLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
-                      }`}
-                    />
+        <div className='fex-1 overflow-y-auto'>
+          {/* 언어 / 프로필 (일단 UI만, 나중에 기능 붙이기) */}
+          <div className='space-y-3 border-b px-4 pb-6'>
+            {/* 언어 선택 */}
+            <div>
+              <label className='text-sm font-medium'>언어</label>
+              <Select
+                value={selectedLang}
+                onValueChange={(val) => setSelectedLang(val)}
+              >
+                <SelectTrigger className='mt-1 w-full'>
+                  <SelectValue placeholder='언어 선택' />
+                </SelectTrigger>
+                <SelectContent>
+                  {languages.map((lang) => (
+                    <SelectItem
+                      key={lang.code}
+                      value={lang.code}
+                    >
+                      {lang.label}
+                    </SelectItem>
                   ))}
-                </div>
-              );
-            })()}
-          </Button>
-
-          <Button
-            variant='outline'
-            className={`${boxBase} ${lineHeightLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
-            onClick={() => dispatch(cycleLineHeight())}
-          >
-            <AlignJustify
-              className={iconSize}
-              strokeWidth={2}
-            />
-            <span>행 높이</span>
-
-            {lineHeightLevel > 0 && (
-              <Check
-                className='absolute top-2 right-2 size-5 text-blue-600'
-                strokeWidth={3}
-              />
-            )}
-
-            {/* 단계 바 */}
-            <div className='mt-3 flex gap-1'>
-              {[1, 2].map((step) => (
-                <div
-                  key={step}
-                  className={`h-1 w-6 rounded-full ${
-                    lineHeightLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
-                  }`}
-                />
-              ))}
+                </SelectContent>
+              </Select>
             </div>
-          </Button>
-        </div>
 
-        {/* 하단 영역 */}
-        <div className='space-y-3 border-t px-4 py-4'>
-          <Button
-            variant='default'
-            className='w-full'
-            onClick={() => dispatch(resetAll())}
-          >
-            모든 접근성 설정 리셋
-          </Button>
+            <div>
+              <label className='text-sm font-medium'>접근성 프로필</label>
+              <Select
+                value={selectedProfile ?? ''}
+                onValueChange={(val) => {
+                  setSelectedProfile(val);
+                  setSelectedSubMode(null); //세부 모드 초기화
+                  dispatch(resetAll());
+                }}
+              >
+                <SelectTrigger className='mt-1 w-full'>
+                  <SelectValue placeholder='프로필 선택' />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(A11Y_PROFILES).map(([key, profile]) => (
+                    <SelectItem
+                      key={key}
+                      value={key}
+                    >
+                      {profile.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          <Button
-            variant='default'
-            className='w-full'
-            onClick={onClose}
-          >
-            <span>위젯 숨기기/이동</span>
-            <span>▼</span>
-          </Button>
+            {/* 세부 모드 (custom 제외) */}
+            {selectedProfile &&
+              selectedProfile !== 'custom' &&
+              A11Y_PROFILES[selectedProfile].items.length > 0 && (
+                <div>
+                  <label className='text-sm font-medium'>세부 모드 선택</label>
 
-          <div className='pt-2 text-right text-sm font-semibold'>A11Y MARKET</div>
+                  <Select
+                    value={selectedSubMode ?? ''}
+                    onValueChange={(modeId) => {
+                      setSelectedSubMode(modeId);
+
+                      dispatch(resetAll());
+
+                      const selectedMode = A11Y_PROFILES[selectedProfile].items.find(
+                        (item) => item.id === modeId,
+                      );
+
+                      if (selectedMode) applyProfileSettings(selectedMode.settings);
+                    }}
+                  >
+                    <SelectTrigger className='mt-1 w-full'>
+                      <SelectValue placeholder='세부 모드 선택' />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {A11Y_PROFILES[selectedProfile].items.map((item) => (
+                        <SelectItem
+                          key={item.id}
+                          value={item.id}
+                        >
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+          </div>
+
+          {/* 옵션 그리드 */}
+          <div className='grid flex-1 grid-cols-3 gap-3 px-4 py-4'>
+            {/* 1행 */}
+            <Button
+              variant='outline'
+              className={`${boxBase} ${screenReader ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(toggleScreenReader())}
+            >
+              <Volume2
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>스크린 리더</span>
+
+              {screenReader && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+            </Button>
+
+            <Button
+              variant='outline'
+              onClick={() => dispatch(cycleContrast())}
+              className={`${boxBase} ${contrastLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+            >
+              <Contrast
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>대비 +</span>
+
+              {/* 체크표시 */}
+              {contrastLevel > 0 && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+
+              {/* 단계 바 */}
+              <div className='mt-3 flex gap-1'>
+                {[1, 2, 3].map((step) => (
+                  <div
+                    key={step}
+                    className={`h-1 w-6 rounded-full ${
+                      contrastLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </Button>
+
+            <Button
+              variant='outline'
+              type='button'
+              onClick={() => dispatch(toggleSmartContrast())}
+              className={`${boxBase} ${smartContrast ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+            >
+              <Lightbulb
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>스마트 대비</span>
+
+              {smartContrast && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+            </Button>
+
+            {/* 2행 */}
+            <Button
+              variant='outline'
+              className={`${boxBase} ${highlightLinks ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(toggleHighlightLinks())}
+            >
+              <Link
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>링크 강조 표시</span>
+
+              {highlightLinks && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+            </Button>
+
+            <Button
+              variant='outline'
+              className={`${boxBase} ${textSizeLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(cycleTextSize())}
+            >
+              <AArrowUp
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>큰 글씨</span>
+
+              {textSizeLevel > 0 && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+
+              {/* 단계 바 */}
+              <div className='mt-3 flex gap-1'>
+                {[1, 2].map((step) => (
+                  <div
+                    key={step}
+                    className={`h-1 w-6 rounded-full ${
+                      textSizeLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </Button>
+
+            <Button
+              variant='outline'
+              className={`${boxBase} ${textSpacingLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(cycleTextSpacing())}
+            >
+              <StretchHorizontal
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>자간 간격</span>
+
+              {textSpacingLevel > 0 && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+
+              {/* 단계 바 */}
+              <div className='mt-3 flex gap-1'>
+                {[1, 2].map((step) => (
+                  <div
+                    key={step}
+                    className={`h-1 w-6 rounded-full ${
+                      textSpacingLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </Button>
+
+            {/* 3행 */}
+            <Button
+              variant='outline'
+              className={`${boxBase} ${cursorHighlight ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(toggleCursorHighlight())}
+            >
+              <MousePointer
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>마우스 커서</span>
+
+              {cursorHighlight && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+            </Button>
+
+            <Button
+              variant='outline'
+              className={`${boxBase} ${textAlign !== 'left' ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(cycleTextAlign())}
+            >
+              {textAlign === 'left' && (
+                <AlignLeft
+                  className={iconSize}
+                  strokeWidth={2}
+                />
+              )}
+              {textAlign === 'center' && (
+                <AlignCenter
+                  className={iconSize}
+                  strokeWidth={2}
+                />
+              )}
+              {textAlign === 'right' && (
+                <AlignRight
+                  className={iconSize}
+                  strokeWidth={2}
+                />
+              )}
+              <span>텍스트 정렬</span>
+
+              {textAlign !== 'left' && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+
+              {/* 단계 바 */}
+              {(() => {
+                const textAlignLevel = textAlign === 'left' ? 0 : textAlign === 'center' ? 1 : 2;
+
+                return (
+                  <div className='mt-3 flex gap-1'>
+                    {[1, 2].map((step) => (
+                      <div
+                        key={step}
+                        className={`h-1 w-6 rounded-full ${
+                          textAlignLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                );
+              })()}
+            </Button>
+
+            <Button
+              variant='outline'
+              className={`${boxBase} ${lineHeightLevel > 0 ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
+              onClick={() => dispatch(cycleLineHeight())}
+            >
+              <AlignJustify
+                className={iconSize}
+                strokeWidth={2}
+              />
+              <span>행 높이</span>
+
+              {lineHeightLevel > 0 && (
+                <Check
+                  className='absolute top-2 right-2 size-5 text-blue-600'
+                  strokeWidth={3}
+                />
+              )}
+
+              {/* 단계 바 */}
+              <div className='mt-3 flex gap-1'>
+                {[1, 2].map((step) => (
+                  <div
+                    key={step}
+                    className={`h-1 w-6 rounded-full ${
+                      lineHeightLevel >= step ? 'bg-blue-600' : 'bg-blue-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </Button>
+          </div>
+
+          {/* 하단 영역 */}
+          <div className='space-y-3 border-t px-4 py-4'>
+            <Button
+              variant='default'
+              className='w-full'
+              onClick={() => dispatch(resetAll())}
+            >
+              모든 접근성 설정 리셋
+            </Button>
+
+            <Button
+              variant='default'
+              className='w-full'
+              onClick={handleSave}
+            >
+              저장하기
+            </Button>
+
+            <Button
+              variant='default'
+              className='w-full'
+              onClick={onClose}
+            >
+              <span>위젯 숨기기/이동</span>
+              <span>▼</span>
+            </Button>
+
+            <div className='pt-2 text-right text-sm font-semibold'>A11Y MARKET</div>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
