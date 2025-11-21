@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import DefaultAddress from '@/components/address/DefaultAddress';
 import NewAddressForm from '@/components/address/NewAddressForm';
 import AddressList from '@/components/address/AddressList';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/mypage/address')({
   component: RouteComponent,
@@ -114,19 +115,17 @@ function RouteComponent() {
 
         <div className='mb-0 flex'>
           {tabs.map((tab, idx) => (
-            <div
+            <Button
               key={idx}
               onClick={() => {
                 setActiveTab(idx);
                 // 다른 탭으로 이동하면 편집 상태 초기화
                 setEditingAddress(null);
               }}
-              className={`cursor-pointer rounded-t-md border border-b-0 border-gray-300 px-4 py-2 ${
-                activeTab === idx ? 'bg-white font-bold' : 'bg-gray-200'
-              } mr-1`}
+              className={`rounded-b-none border border-gray-300 px-4 py-2 ${activeTab === idx ? 'border-b-0 bg-white text-black' : 'bg-gray-200 text-black'} mr-1 hover:bg-transparent focus:outline-none`}
             >
               {tab.label}
-            </div>
+            </Button>
           ))}
         </div>
 
