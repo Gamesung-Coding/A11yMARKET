@@ -21,6 +21,7 @@ import {
   AArrowUp,
   StretchHorizontal,
   MousePointer,
+  Plus,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -123,6 +124,7 @@ export default function A11yOverlay({ open, onClose }) {
   const iconSize = 'size-10';
   const boxBase =
     'relative flex flex-col items-center justify-center gap-2 rounded-xl border bg-gray-100 px-4 py-20 text-sm cursor-pointer focus:outline-none focus:ring-0 focus:ring-offset-0';
+  const contrastLabels = ['기본 대비', '색 반전', '다크', '라이트'];
 
   return (
     <Sheet
@@ -281,7 +283,7 @@ export default function A11yOverlay({ open, onClose }) {
                 className={iconSize}
                 strokeWidth={2}
               />
-              <span>대비 +</span>
+              <span>{contrastLabels[contrastLevel]}</span>
 
               {/* 체크표시 */}
               {contrastLevel > 0 && (
@@ -303,7 +305,6 @@ export default function A11yOverlay({ open, onClose }) {
                 ))}
               </div>
             </Button>
-
             <Button
               variant='outline'
               aria-label='스마트 대비 적용'
@@ -324,7 +325,6 @@ export default function A11yOverlay({ open, onClose }) {
                 />
               )}
             </Button>
-
             {/* 2행 */}
             <Button
               variant='outline'
@@ -346,7 +346,6 @@ export default function A11yOverlay({ open, onClose }) {
                 />
               )}
             </Button>
-
             <Button
               variant='outline'
               aria-label='글자 크기 조절'
@@ -379,7 +378,6 @@ export default function A11yOverlay({ open, onClose }) {
                 ))}
               </div>
             </Button>
-
             <Button
               variant='outline'
               aria-label='글자 간격 조절'
@@ -412,7 +410,6 @@ export default function A11yOverlay({ open, onClose }) {
                 ))}
               </div>
             </Button>
-
             {/* 3행 */}
             <Button
               variant='outline'
@@ -421,10 +418,18 @@ export default function A11yOverlay({ open, onClose }) {
               className={`${boxBase} ${cursorHighlight ? 'border-black bg-gray-200' : ''} hover:border-blue-500 hover:ring-2 hover:ring-blue-400/50`}
               onClick={() => dispatch(toggleCursorHighlight())}
             >
-              <MousePointer
-                className={iconSize}
-                strokeWidth={2}
-              />
+              {cursorHighlight ? (
+                <Plus
+                  className={iconSize}
+                  strokeWidth={2}
+                />
+              ) : (
+                <MousePointer
+                  className={iconSize}
+                  strokeWidth={2}
+                />
+              )}
+
               <span>마우스 커서</span>
 
               {cursorHighlight && (
@@ -434,7 +439,6 @@ export default function A11yOverlay({ open, onClose }) {
                 />
               )}
             </Button>
-
             <Button
               variant='outline'
               aria-label='텍스트 정렬 변경'
@@ -487,7 +491,6 @@ export default function A11yOverlay({ open, onClose }) {
                 );
               })()}
             </Button>
-
             <Button
               variant='outline'
               aria-label='줄 간격 확대'
